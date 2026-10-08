@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://blog-backend.merajalam36930-cloudflare.workers.dev"
