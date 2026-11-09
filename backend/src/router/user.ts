@@ -32,6 +32,7 @@ userRouter.post('/signup', async (c) => {
         const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
         return c.json({
             jwt: jwt,
+            name: user.name,
             message: "Account Created Successfully"
         });
     } catch (e) {
@@ -50,7 +51,7 @@ userRouter.post('/signin', async (c) => {
         return c.json({ error: "invalid input" }, 400);
     }
     try {
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
             where: {
                 email: body.email,
                 password: body.password
@@ -64,6 +65,7 @@ userRouter.post('/signin', async (c) => {
         const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
         return c.json({
             jwt: jwt,
+            name: user.name,
             message: "Account Loggedin Successfully"
         });
     } catch (e) {

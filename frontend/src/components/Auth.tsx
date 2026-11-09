@@ -15,11 +15,12 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     async function sendRequest() {
         try {
             const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`, postInput);
-            const jwt = response.data;
-            localStorage.setIntem("token", jwt);
+            localStorage.setItem('name', response.data.name);
+            localStorage.setItem('token', response.data.jwt)
             navigate("/")
-        } catch (e) {
-            alert(`${type === "signup" ? "Error while Sign Up" : "Error while Sign In"}`)
+        } catch (e: any) {
+            console.error("Signin failed:", e.response?.data);
+            alert(e.response?.data?.message || "Invalid credentials or access denied.");
         }
     }
     return <div className="h-screen flex justify-center flex-col">
